@@ -21,5 +21,23 @@ function runTheLearningSamples() {
   // displayProductInfo(10, 'Pizza');
   
   // This one works because we use defined types from fn displayProductInfo():
-  displayProductInfo(10, 'Dude');   
+  displayProductInfo(10, 'Dude');
+
+  console.log(`${prefix} function declaration`);
+  console.log(addNumbersDeclaration(7, 11));
+
+  // This is a function declaration. It can be hoisted to top of the page.
+  function addNumbersDeclaration(x: number, y: number) {
+    const sum: number = x + y;
+    return sum;
+  }
+
+  // example of a function expression; expressions are NOT hoisted
+  const addNumbersExpression = function(x: number, y: number) {
+    const sum: number = x + y;
+    return sum;
+  }
+
+  console.log(`${prefix} function expression`);
+  console.log(addNumbersExpression(64, 5));
 }
