@@ -5,7 +5,7 @@ const prefix = '🐉 ';
 type ProductType = {
   id: number,
   name: string,
-  icon?: string
+  icon?: string;
 };
 
 // This will host the learning examples from Lesson 4:
@@ -93,152 +93,142 @@ function runTheLearningSamples() {
 console.log(`${prefix} return scalar value`);
 //console.log(addNumbersDeclaration(7, 11));
 
-  const sampleProducts = [
-    {
-      id: 10,
-      name: 'Pizza slice',
-      icon: 'fas fa-pizza-slice',
-    },
-    {
-      id: 20,
-      name: 'Ice cream',
-      icon: 'fas fa-ice-cream',
-    },
-    {
-      id: 30,
-      name: 'Cheese',
-      icon: 'fas fa-cheese',
-    },
-  ];
+const sampleProducts = [
+  {
+    id: 10,
+    name: 'Pizza slice',
+    icon: 'fas fa-pizza-slice',
+  },
+  {
+    id: 20,
+    name: 'Ice cream',
+    icon: 'fas fa-ice-cream',
+  },
+  {
+    id: 30,
+    name: 'Cheese',
+    icon: 'fas fa-cheese',
+  },
+];
 
-  function getProductNames(): string[] {
-    return sampleProducts.map((p) => p.name);
-  }
+function getProductNames(): string[] {
+  return sampleProducts.map((p) => p.name);
+}
 
-  console.log(`${prefix} return array`);
-  console.log(getProductNames());
+console.log(`${prefix} return array`);
+console.log(getProductNames());
 
-  // Return Types
+// Return Types
 
-  // CREATE type ProductType
+// CREATE type ProductType
 
-  // Shorthand version auto-returns if arrow function is 1 line long:
-  function getProductById(id: number): ProductType | undefined {
-    return sampleProducts.find((p) => id === p.id);
-    //return sampleProducts.find(function (p) {
-    //  return id === p.id;
-    //});
-  }
-  /*
-  // Simplified arrow function to get product by id and return it:
-  const getProductById2 = (id: number): ProductType | undefined =>
-    sampleProducts.find((p) => id === p.id);
+// Shorthand version auto-returns if arrow function is 1 line long:
+function getProductById(id: number): ProductType | undefined {
+  return sampleProducts.find((p) => id === p.id);
+  //return sampleProducts.find(function (p) {
+  //  return id === p.id;
+  //});
+}
+/*
+// Simplified arrow function to get product by id and return it:
+const getProductById2 = (id: number): ProductType | undefined =>
+  sampleProducts.find((p) => id === p.id);
 
-    getProductById2(10);
+  getProductById2(10);
 
-  console.log(`${prefix} return ProductType`);
-  console.table(getProductById(10));
-  */
+console.log(`${prefix} return ProductType`);
+console.table(getProductById(10));
+*/
 
-  // Return void
+// Return void
 
-  function displayProducts(products: ProductType[]): void {
-    const productNames = products.map((p) => {
-      const name = p.name.toLowerCase();
-      return name;
-    });
-    const msg = `Sample products include: ${productNames.join(', ')}`;
-    console.log(`${prefix} return void`);
-    console.log(msg);
-  }
+function displayProducts(products: ProductType[]): void {
+  const productNames = products.map((p) => {
+    const name = p.name.toLowerCase();
+    return name;
+  });
+  const msg = `Sample products include: ${productNames.join(', ')}`;
+  console.log(`${prefix} return void`);
+  console.log(msg);
+}
 
-  displayProducts(sampleProducts);
+displayProducts(sampleProducts);
 
-  // async/await function
+// Lesson 5.7 - creating an optional paramter
+const getRandomInt = (max: number) => Math.floor(Math.random() * max);
 
-  // *** async function getProducts()
+function createProduct(name: string, icon?: string): ProductType {
+  const id = getRandomInt(1000);
+  return {
+    id,
+    name,
+    icon,
+  };
+}
 
-  // Arrow functions
+console.log(`${prefix} Optional parameters`);
+let pineapple = createProduct('pineapple', 'pine-apple.jpg');
+let mango = createProduct('mango');
+console.log(pineapple, mango);
 
-  // see function displayProducts()
-  // and layoutProducts()
-  // and getProductById()
+// Default parameters
 
-  // Optional parameters
+// modify getRandomInt()
+/*
+function createProductWithDefaults(
+  name: string,
+  icon: string = 'generic-fruit.jpg',
+): ProductType {
+  const id = getRandomInt();
+  return {
+    id,
+    name,
+    icon,
+  };
+}
+*/
+/*
+console.log(`${prefix} Default parameters`);
+pineapple = createProductWithDefaults('pineapple', 'pine-apple.jpg');
+mango = createProductWithDefaults('mango');
+console.log(pineapple, mango);
+*/
 
-  function createProduct(name: string, icon?: string): ProductType {
-    const id = getRandomInt(1000);
-    return {
-      id,
-      name,
-      icon,
-    };
-  }
+// *** updateOutput()
 
-  const { floor, random } = Math;
-  const getRandomInt = (max: number = 1000) => floor(random() * max);
+// Rest parameters
 
-  console.log(`${prefix} Optional parameters`);
-  let pineapple = createProduct('pineapple', 'pine-apple.jpg');
-  let mango = createProduct('mango');
-  console.log(pineapple, mango);
+function buildAddress(
+  street: string,
+  city: string,
+  ...restOfAddress: string[]
+) {
+  const address = `${street}, ${city} ${restOfAddress.join(' ')}`;
+  return address;
+}
 
-  // Default parameters
+const someAddress = buildAddress(
+  '1 lois lane',
+  'smallville',
+  'apt 101', // rest
+  'area 51', // rest
+  'mystery country', // rest
+);
 
-  // modify getRandomInt()
+console.log(`${prefix} Rest parameters`);
+console.log(someAddress);
 
-  function createProductWithDefaults(
-    name: string,
-    icon: string = 'generic-fruit.jpg',
-  ): ProductType {
-    const id = getRandomInt();
-    return {
-      id,
-      name,
-      icon,
-    };
-  }
+// Destructuring parameters
 
-  console.log(`${prefix} Default parameters`);
-  pineapple = createProductWithDefaults('pineapple', 'pine-apple.jpg');
-  mango = createProductWithDefaults('mango');
-  console.log(pineapple, mango);
+function displayProduct({ id, name }: ProductType): void {
+  console.log(`${prefix} Destructuring parameters`);
+  console.log(`Product id=${id} and name=${name}`);
+}
 
-  // *** updateOutput()
+const prod = getProductById(10);
+if (prod) {
+  displayProduct(prod);
+}
 
-  // Rest parameters
-
-  function buildAddress(
-    street: string,
-    city: string,
-    ...restOfAddress: string[]
-  ) {
-    const address = `${street}, ${city} ${restOfAddress.join(' ')}`;
-    return address;
-  }
-
-  const someAddress = buildAddress(
-    '1 lois lane',
-    'smallville',
-    'apt 101', // rest
-    'area 51', // rest
-    'mystery country', // rest
-  );
-
-  console.log(`${prefix} Rest parameters`);
-  console.log(someAddress);
-
-  // Destructuring parameters
-
-  function displayProduct({ id, name }: ProductType): void {
-    console.log(`${prefix} Destructuring parameters`);
-    console.log(`Product id=${id} and name=${name}`);
-  }
-
-  const prod = getProductById(10);
-  if (prod) {
-    displayProduct(prod);
-  }
-
-  // ~~~ Math destructuring
-  // ~~~ layoutProducts() uses destructuring
+// ~~~ Math destructuring
+// ~~~ layoutProducts() uses destructuring
