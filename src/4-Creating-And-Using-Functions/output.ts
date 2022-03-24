@@ -122,12 +122,23 @@ console.log(`${prefix} return scalar value`);
 
   // CREATE type ProductType
 
+  // Shorthand version auto-returns if arrow function is 1 line long:
   function getProductById(id: number): ProductType | undefined {
-    return sampleProducts.find((p) => (id = p.id));
+    return sampleProducts.find((p) => id === p.id);
+    //return sampleProducts.find(function (p) {
+    //  return id === p.id;
+    //});
   }
+  /*
+  // Simplified arrow function to get product by id and return it:
+  const getProductById2 = (id: number): ProductType | undefined =>
+    sampleProducts.find((p) => id === p.id);
+
+    getProductById2(10);
 
   console.log(`${prefix} return ProductType`);
   console.table(getProductById(10));
+  */
 
   // Return void
 
