@@ -20,6 +20,7 @@ export default async function updateOutput(id: string = 'output') {
   }
 }
 
+// Lesson 4.10 - Example of destructuring with 'products':
 function layoutProducts(products: ProductType[]) {
   const items = products.map(({ id, name, icon }) => {
     const productHtml = `
@@ -154,11 +155,9 @@ function displayProducts(products: ProductType[]): void {
 
 displayProducts(sampleProducts);
 
-// Lesson 5.7 - creating an optional paramter
-//const getRandomInt = (max: number) => Math.floor(Math.random() * max);
-
-// Give parameter a default value && make it optional, too:
-const getRandomInt = (max: number = 1000) => Math.floor(Math.random() * max);
+// Lesson 4.10 - Here's a 2nd example of parameter destructuring:
+const { floor, random } = Math;
+const getRandomInt = (max: number = 1000) => floor(random() * max);
 
 function createProduct(name: string, icon?: string): ProductType {
   const id = getRandomInt();
@@ -189,7 +188,7 @@ pineapple = createProductWithDefaults('pineapple', 'pine-apple.jpg');
 mango = createProductWithDefaults('mango');
 console.log(pineapple, mango);
 
-// Lesson 4.8 - Creating a function here to handle rest parameters:
+// Lesson 4.9 - Creating a function here to handle rest parameters:
 function buildAddress(street: string, city: string, ...restOfAddress: string[]) {
   console.table(restOfAddress);  // Creates table in console log, showing index #, Value
   const address = `${street} ${city} 
@@ -207,3 +206,16 @@ const someAddress = buildAddress(
 
   console.log(`${prefix} Rest parameters:`);
   console.log(someAddress);
+
+
+  // Lesson 4.10: Parameter Destructuring
+  // Destructuring version: derive id, name from ProductType:
+  function displayProduct({ id, name } : ProductType): void {
+    console.log(`${prefix} Destructuring parameters:`);
+    console.log(`Product id=${id} and name=${name}`);
+  }
+
+  const prod = getProductById(10);
+  if(prod) {
+    displayProduct(prod);
+  }
