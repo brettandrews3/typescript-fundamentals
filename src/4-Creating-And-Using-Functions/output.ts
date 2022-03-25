@@ -188,3 +188,22 @@ console.log(`${prefix} Default parameters`);
 pineapple = createProductWithDefaults('pineapple', 'pine-apple.jpg');
 mango = createProductWithDefaults('mango');
 console.log(pineapple, mango);
+
+// Lesson 4.8 - Creating a function here to handle rest parameters:
+function buildAddress(street: string, city: string, ...restOfAddress: string[]) {
+  console.table(restOfAddress);  // Creates table in console log, showing index #, Value
+  const address = `${street} ${city} 
+  ${restOfAddress.join(' - ')}`;
+  return address;
+}
+
+const someAddress = buildAddress(
+  '1 Luthor Lane',        // Street
+  'Metropolis',           // City
+  'Penthouse',            // rest arg[0]
+  'Fortress of Solitude', // rest arg[1]
+  'Earth-3'               // rest arg [2]
+  );
+
+  console.log(`${prefix} Rest parameters:`);
+  console.log(someAddress);
