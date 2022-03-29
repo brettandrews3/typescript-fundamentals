@@ -1,6 +1,7 @@
 import { getProducts, Product } from '../lib';
 import { FoodProduct } from '../lib/product';
 
+// The #form and #output are DOM lookups to find those elements
 class ProductOutput {
   products: Product[] = [];
   form = this.getElement('#form');
