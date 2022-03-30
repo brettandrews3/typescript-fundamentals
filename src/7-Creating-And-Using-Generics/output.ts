@@ -23,9 +23,9 @@ class GenericModel<T extends HasId> {
 const foodModel = new GenericModel<FoodProduct>(productsURL);
 
 export default async function updateOutput(id: string = 'output') {
-  // const products = await getProducts();
-  // const products = await getList<FoodProduct>(productsURL);
-  const products = await foodModel.getItems();
+  //const products = await getProducts();
+  const products = await getList<FoodProduct>(productsURL);
+  //const products = await foodModel.getItems();
 
   const output = document.querySelector(`#${id}`);
   const html = layoutProducts(products);
@@ -65,6 +65,7 @@ async function getProducts(): Promise<FoodProduct[]> {
   return products;
 }
 
+// getList() used in lesson 7.3 RE: functions. See async function getData ~ln 120
 async function getList<T>(url: string): Promise<T[]> {
   const response: Response = await fetch(url);
   const items: T[] = await response.json();
@@ -109,4 +110,23 @@ async function runTheLearningSamples() {
   let b: boolean = whatIsIt_typed<boolean>(true);
 
   console.log(n, s, b);
+
+  //**Lesson 7.3: creating our own generic functions**
+
+  interface Customer {
+    id: number;
+    name: string;
+  }
+
+  async function getData() {
+    console.log(`${prefix} Generic Functions`);
+
+    const products = await getList<FoodProduct>(productsURL);
+    console.table(products);
+
+    const customers = await getList<Customer>(customersURL);
+    console.table(customers);
+  }
+
+  await getData();
 }
