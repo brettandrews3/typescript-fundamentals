@@ -129,4 +129,30 @@ async function runTheLearningSamples() {
   }
 
   await getData();
+
+  //**Lesson 7.4 - using generics with interfaces
+
+  interface Model<T> {
+    items: T[] | undefined;                     // return generic array | undefined if not there
+    getItems: () => Promise<T[]>;
+    getItemById: (id: number) => T | undefined;
+  }
+
+  // using 'implements' gives lightbulb option to implement interface automatically
+  // This could easily implement <Customer> instead by swapping out the <Name> and (customerURL)
+  class FoodModel implements Model<FoodProduct> {
+    public items: FoodProduct[] | undefined;
+    async getItems() : Promise<FoodProduct[]> {
+      this.items = await getList<FoodProduct>(productsURL);
+      return this.items;
+    }
+    getItemById(id: number) : FoodProduct | undefined {
+      return this.items ? this.items.find((item) => (id = item.id)) : undefined
+    }
+  }
+
+  const foodModel: FoodModel = new FoodModel();
+  await foodModel.getItems();
+  console.log(`${prefix} Generic Interface`);
+  console.table(foodModel.items);
 }
