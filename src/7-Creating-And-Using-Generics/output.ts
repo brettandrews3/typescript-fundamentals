@@ -6,6 +6,9 @@ interface HasId {
   id: number;
 }
 
+// Lesson 7.5 - Generics and Classes
+
+// class GenericModel is similar to FoodModel near bottom of this file
 class GenericModel<T extends HasId> {
   public items: T[] | undefined;
   constructor(public url: string) {}
@@ -20,12 +23,14 @@ class GenericModel<T extends HasId> {
   }
 }
 
+// foodModel uses GenericModel and <FoodProduct> to generate an instance in 1 line
 const foodModel = new GenericModel<FoodProduct>(productsURL);
+//const customerModel = new GenericModel<Customer>(customersURL);
 
 export default async function updateOutput(id: string = 'output') {
   //const products = await getProducts();
-  const products = await getList<FoodProduct>(productsURL);
-  //const products = await foodModel.getItems();
+  //const products = await getList<FoodProduct>(productsURL);
+  const products = await foodModel.getItems();
 
   const output = document.querySelector(`#${id}`);
   const html = layoutProducts(products);
@@ -155,4 +160,13 @@ async function runTheLearningSamples() {
   await foodModel.getItems();
   console.log(`${prefix} Generic Interface`);
   console.table(foodModel.items);
+
+  const genericFoodModel = new GenericModel<FoodProduct>(productsURL);
+  const genericCustomerModel = new GenericModel<Customer>(customersURL);
+  await genericFoodModel.getItems();
+  await genericCustomerModel.getItems();
+
+  console.log(`${prefix} Generic Class`);
+  console.table(genericFoodModel.items);
+  console.table(genericCustomerModel.items);
 }
