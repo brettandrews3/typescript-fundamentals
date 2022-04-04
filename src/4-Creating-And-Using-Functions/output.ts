@@ -1,7 +1,7 @@
 import { productsURL } from "../lib";
 
 const prefix = '🐉 ';
-// TS Lesson 4.8 - Rest Parameters (using '...[restOfParameter]' for optional info)
+// TS Lesson 4.10 - Parameter Destructuring (desctructured parameters at bottom)
 
 // TS Lesson 4.4: we're creating new type ProductType:
 type ProductType = {
@@ -31,12 +31,15 @@ export default async function updateOutput(id: string) {
 // The card defined by <span class...> lays out the product info, then const cardHtml
 // puts each card's span inside the <li> item to display to the browser.
 // At the end, we return the unordered list <ul> in productsHtml.
+
+// TS Lesson 4.10: destructure the .map() parameters, as {id, name, icon} are defined
+// in 'products', which is set by type 'ProductType' and its id, name, icon settings on ln 7.
 function layoutProducts(products: ProductType[]) {
-    const items = products.map((p) => {
+    const items = products.map(({id, name, icon}) => {
         const productHtml = `
-        <span class="card-id">#${p.id}</span>
-            <i class="card-icon ${p.icon} fa-lg"></i>
-        <span class="card-name">${p.name}</span>
+        <span class="card-id">#${id}</span>
+            <i class="card-icon ${icon} fa-lg"></i>
+        <span class="card-name">${name}</span>
         ;`
         const cardHtml = `
         <li>
@@ -181,7 +184,9 @@ function runTheLearningSamples() {
     // Lesson 4.8
     // By setting max: number = 1000, we make the argument default && optional, meaning
     // const 'id' below could remove the number from its getRandomInt() and work the same.
-    const getRandomInt = (max: number = 1000) => Math.floor(Math.random() * max);
+    // Lesson 4.10: apply destructured parameters to pull functions directly from Math:
+    const { floor, random } = Math;
+    const getRandomInt = (max: number = 1000) => floor(random() * max);
 
     function createProduct(name: string, icon?: string,): ProductType {
         const id = getRandomInt(1000);
@@ -242,4 +247,19 @@ function runTheLearningSamples() {
 
     console.log(`${prefix} Rest parameters`);
     console.log(someAddress);
+
+    
+    // Lesson 4.10: Parameter destructuring
+    // In displayProduct() here, we can pass in ( {id, name} ) instead of passing in 
+    // variable 'product' because these parameters are part of return type ProductType,
+    // which I've specified below.
+    function displayProduct({id, name,}: ProductType): void {
+        console.log(`${prefix} Destructuring parameters`);
+        console.log(`Product id=${id} and name=${name}`);
+    }
+
+    const prod = getProductById(10);
+    if(prod) {
+        displayProduct(prod);
+    }
 }
