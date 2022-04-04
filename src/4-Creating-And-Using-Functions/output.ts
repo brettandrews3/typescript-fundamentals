@@ -1,5 +1,7 @@
+import { productsURL } from "../lib";
+
 const prefix = '🐉 ';
-// TS Lesson 4.4 - Return Values (type ProductType, undefined, void return type)
+// TS Lesson 4.5 - Asynchronous Functions(async, map(), await, HTML, Response)
 
 // TS Lesson 4.4: we're creating new type ProductType:
 type ProductType = {
@@ -8,10 +10,62 @@ type ProductType = {
     icon?: string;
 };
 
+// TS Lesson 4.5
+// This async function waits for getProducts() to run, using const products to do so
+// 'output' calls to the div on the page with that id, then lays out products in HTML
+// layoutProducts() below turns the array of products into HTML. Finally, const html
+// executes layoutProducts() from below, passing in its paramter: 'products'.
+// if statement is guard logic, insuring we have both output && html to proceed.
 export default async function updateOutput(id: string) {
-    //Ow, my toe! I STUBBED it on this function :D
+    const products = await getProducts();
+    const output = document.querySelector(`#${id}`);
+    const html = layoutProducts(products);
+
+    if(output && html) {
+        output.innerHTML = html;
+    }
 }
 
+// TS Lesson 4.5: function layoutProducts() helps us get the data, display to webpage.
+// It's used by updateOutput() above to turn product array into HTML:
+// The card defined by <span class...> lays out the product info, then const cardHtml
+// puts each card's span inside the <li> item to display to the browser.
+// At the end, we return the unordered list <ul> in productsHtml.
+function layoutProducts(products: ProductType[]) {
+    const items = products.map((p) => {
+        const productHtml = `
+        <span class="card-id">#${p.id}</span>
+            <i class="card-icon ${p.icon} fa-lg"></i>
+        <span class="card-name">${p.name}</span>
+        ;`
+        const cardHtml = `
+        <li>
+            <div class="card">
+                <div class="card-content">
+                    <div class="content">
+                    ${productHtml}
+                    </div>
+                </div>
+            </div>
+        </li>
+        `;
+        return cardHtml;
+    });
+    let productsHtml = `<ul>${items.join('')}</ul>`;
+    return productsHtml;
+}
+
+// TS Lesson 4.5: creating function getProducts() to display products on the page:
+// 'response' = what returns from our async call to an API using fetch()
+// Function is async => fetch() has an await statement && function has async statement
+// Define return type as 'Response' to make it extra explicit (productsURL has Response, too)
+// 'products' is async bc json() is async because it's returning a <Promise>
+// Define return type on getProducts() to insure function returns what I expect, even if fn changes
+async function getProducts(): Promise<ProductType[]> {
+    const response: Response = await fetch(productsURL);
+    const products: ProductType[] = await response.json();
+    return products;
+}
 
 // Learning sample section. Everything above this renders back to the page
 runTheLearningSamples();
@@ -59,7 +113,7 @@ function runTheLearningSamples() {
           },
           {
             id: 30,
-            name: 'Cheese',
+            name: 'Royale with cheese',
             icon: 'fas fa-cheese',
           },
     ];
