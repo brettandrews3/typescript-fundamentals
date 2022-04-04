@@ -1,7 +1,7 @@
 import { productsURL } from "../lib";
 
 const prefix = '🐉 ';
-// TS Lesson 4.5 - Asynchronous Functions(async, map(), await, HTML, Response)
+// TS Lesson 4.6 - Arrow Functions (arrow function, simplified functions)
 
 // TS Lesson 4.4: we're creating new type ProductType:
 type ProductType = {
@@ -132,8 +132,21 @@ function runTheLearningSamples() {
     // It returns array sampleProducts with .find(), where 'p' is each item
     // in the array. 'p' looks for the id where it is the product id (p.id).
     function getProductById(id: number): ProductType | undefined {
-        return sampleProducts.find(p => id == p.id);
+        return sampleProducts.find(p => id == p.id); // 1 ln arrow fn has implied 'return'
+
+        /* Longhand translation for above arrow function:
+        return sampleProducts.find(function (p) {
+            return id === p.id;
+        });  */
     }
+
+    /*
+    // Lesson 4.6: convert getProductById() to arrow function:
+    const getProductById2 = (id: number): ProductType | undefined =>
+        sampleProducts.find((p) => id === p.id);
+
+        getProductById2(70);
+    */
 
     console.log(`${prefix} returning ProductType`);
     console.log(getProductById(10));
@@ -147,6 +160,10 @@ function runTheLearningSamples() {
         Finally, declare const msg to deliver the string: 'Sample products include (list each product name,
         joining them together with comma and space for readability). Print the result msg to the console.
     */
+
+    // Lesson 4.6: The arrow function here takes the array of products 'p', maps the array to
+    // const 'name', and returns just the names of said products array. The arrow function says, 
+    // "Return whatever this function in {} does."
     function displayProducts(products: ProductType[]) : void {
         const productNames = products.map(p => {
             const name = p.name.toLowerCase();
