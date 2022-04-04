@@ -1,7 +1,7 @@
 import { productsURL } from "../lib";
 
 const prefix = '🐉 ';
-// TS Lesson 4.7 - Optional Parameters (random number generator, optional parameters @ bottom)
+// TS Lesson 4.8 - Default Parameters (examples at bottom of code)
 
 // TS Lesson 4.4: we're creating new type ProductType:
 type ProductType = {
@@ -178,7 +178,10 @@ function runTheLearningSamples() {
     displayProducts(sampleProducts);
 
     // Lesson 4.7
-    const getRandomInt = (max: number) => Math.floor(Math.random() * max);
+    // Lesson 4.8
+    // By setting max: number = 1000, we make the argument default && optional, meaning
+    // const 'id' below could remove the number from its getRandomInt() and work the same.
+    const getRandomInt = (max: number = 1000) => Math.floor(Math.random() * max);
 
     function createProduct(name: string, icon?: string,): ProductType {
         const id = getRandomInt(1000);
@@ -189,8 +192,29 @@ function runTheLearningSamples() {
         };
     }
 
+    // Lesson 4.7: Using optional parameters, pineapple applies the icon string given in its
+    // declaration: 'pine-apple.jpg'. Since the icon is optional in this function, mango has
+    // an icon value of 'undefined'.
     console.log(`${prefix} Optional parameters`);
     let pineapple = createProduct('pineapple', 'pine-apple.jpg');
     let mango = createProduct('mango');
+    console.log(pineapple, mango);
+
+    // Lesson 4.8: recreating createProduct from 4.7 but with default values
+    function createProductWithDefaults(name: string, icon: string = 'generic-fruit.jpg'): ProductType {
+        const id = getRandomInt();
+        return {
+            id, 
+            name,
+            icon
+        };
+    }
+
+    // Lesson 4.8: When we call pineapple and mango to the console log with default parameters,
+    // pineapple prints with its 'pine-apple.jpg' assigned below, while mango appears with the
+    // default icon in the function: 'generic-fruit.jpg'.
+    console.log(`${prefix} Default parameters`);
+    pineapple = createProductWithDefaults('pineapple', 'pine-apple.jpg');
+    mango = createProductWithDefaults('mango');
     console.log(pineapple, mango);
 }
