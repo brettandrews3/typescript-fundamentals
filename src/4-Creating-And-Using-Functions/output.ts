@@ -1,7 +1,7 @@
 import { productsURL } from "../lib";
 
 const prefix = '🐉 ';
-// TS Lesson 4.8 - Default Parameters (examples at bottom of code)
+// TS Lesson 4.8 - Rest Parameters (using '...[restOfParameter]' for optional info)
 
 // TS Lesson 4.4: we're creating new type ProductType:
 type ProductType = {
@@ -217,4 +217,29 @@ function runTheLearningSamples() {
     pineapple = createProductWithDefaults('pineapple', 'pine-apple.jpg');
     mango = createProductWithDefaults('mango');
     console.log(pineapple, mango);
+
+
+    // Lesson 4.9: Rest parameters
+    // The ellipsis says that any parameters after street and city here are 'restOfAddress'.
+    function buildAddress(
+        street: string, 
+        city: string, 
+        ...restOfAddress: string[] 
+        ) {
+        console.table(restOfAddress);
+        const address = `${street} ${city} 
+        ${restOfAddress.join(' - ')} `;   // restOfAddress now appears on next console line
+        return address;
+    }
+
+    const someAddress = buildAddress(
+        '1 lois lane',      // street
+        'smallville',       // city
+        'apt 101',          // rest arg[0]
+        'area 51',          // rest arg[1]
+        'mystery country',  // rest arg[2]
+    );
+
+    console.log(`${prefix} Rest parameters`);
+    console.log(someAddress);
 }
