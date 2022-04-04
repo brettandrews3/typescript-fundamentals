@@ -1,7 +1,7 @@
 import { productsURL } from "../lib";
 
 const prefix = '🐉 ';
-// TS Lesson 4.6 - Arrow Functions (arrow function, simplified functions)
+// TS Lesson 4.7 - Optional Parameters (random number generator, optional parameters @ bottom)
 
 // TS Lesson 4.4: we're creating new type ProductType:
 type ProductType = {
@@ -176,4 +176,21 @@ function runTheLearningSamples() {
 
     // displayProducts is declared just above. sampleProducts defined at ln 49 in this commit.
     displayProducts(sampleProducts);
+
+    // Lesson 4.7
+    const getRandomInt = (max: number) => Math.floor(Math.random() * max);
+
+    function createProduct(name: string, icon?: string,): ProductType {
+        const id = getRandomInt(1000);
+        return {
+            id, 
+            name,
+            icon
+        };
+    }
+
+    console.log(`${prefix} Optional parameters`);
+    let pineapple = createProduct('pineapple', 'pine-apple.jpg');
+    let mango = createProduct('mango');
+    console.log(pineapple, mango);
 }
